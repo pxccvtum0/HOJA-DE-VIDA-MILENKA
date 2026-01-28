@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Productos Académicos | Registros de Investigación{% endblock %}
+
+{% block content %}
+<section class="min-h-screen p-8 md:p-20 lg:ml-8">
+    <div class="max-w-6xl mx-auto mb-16 relative">
+        <div class="absolute -top-10 -left-10 text-[150px] font-black text-white/5 select-none pointer-events-none italic">
+            ACAD
+        </div>
+        
+        <div class="relative z-10">
+            <div class="inline-flex items-center gap-3 bg-white/5 border border-white/10 px-4 py-2 rounded-full mb-6">
+                <span class="w-1 h-4 bg-emerald-500 rounded-full animate-pulse"></span>
+                <span class="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400">Base de Datos: Academia Z-SYSTEM</span>
+            </div>
+            
+            <h1 class="text-6xl md:text-7xl font-black tracking-tighter leading-none mb-4">
+                <span class="text-white block">PRODUCTOS</span>
+                <span class="jujutsu-gradient-text italic">ACADÉMICOS</span>
+            </h1>
+            <p class="text-slate-500 font-medium max-w-xl uppercase text-[10px] tracking-[0.2em] leading-relaxed">
+                Documentación técnica, tesis y proyectos desarrollados durante la formación.
+            </p>
+        </div>
+    </div>
+
+    <div class="max-w-5xl mx-auto space-y-6">
+        {% for producto in datos %}
+        {% if producto.activarparaqueseveaenfront %}
+        <div class="group relative bg-[#0a0f1d]/60 backdrop-blur-md border border-white/5 rounded-3xl p-1 transition-all duration-500 hover:border-emerald-500/40">
+            <div class="p-8 flex flex-col md:flex-row gap-8 items-start md:items-center">
+                
+                <div class="relative w-20 h-20 shrink-0 bg-white/5 rounded-2xl border border-white/10 flex items-center justify-center group-hover:bg-emerald-500/10 group-hover:border-emerald-500/50 transition-all">
+                    <i data-lucide="file-text" class="text-slate-500 group-hover:text-emerald-400" size="32"></i>
+                    <span class="absolute -bottom-2 -right-2 text-[9px] bg-slate-800 text-slate-400 px-2 py-0.5 rounded border border-white/10 font-mono">
+                        ID:{{ producto.idproductoacademico }}
+                    </span>
+                </div>
+
+                <div class="flex-1">
+                    <div class="flex flex-wrap items-center gap-3 mb-2">
+                        <span class="text-[10px] font-black text-emerald-500 uppercase tracking-widest bg-emerald-500/10 px-2 py-0.5 rounded">
+                            {{ producto.clasificador|default:"Investigación" }}
+                        </span>
+                    </div>
+                    
+                    <h3 class="text-2xl font-black text-white tracking-tight mb-3 group-hover:text-emerald-400 transition-colors">
+                        {{ producto.nombrerecurso }}
+                    </h3>
+                    
+                    <p class="text-slate-400 text-sm leading-relaxed max-w-2xl">
+                        {{ producto.descripcion }}
+                    </p>
+                </div>
+
+                <div class="flex md:flex-col gap-3 w-full md:w-auto">
+                    <div class="hidden group-hover:flex md:w-12 md:h-12 items-center justify-center bg-white/5 border border-white/10 rounded-xl text-emerald-400">
+                        <i data-lucide="check-circle" size="20"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% empty %}
+        <div class="text-center py-24 border-2 border-dashed border-white/5 rounded-[3rem]">
+            <i data-lucide="folder-search" size="48" class="mx-auto text-slate-800 mb-4"></i>
+            <p class="text-slate-600 font-bold uppercase tracking-widest text-sm">No hay registros académicos en el servidor</p>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<script>
+    lucide.createIcons();
+</script>
+{% endblock %}

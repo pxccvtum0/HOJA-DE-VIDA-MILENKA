@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Inicio{% endblock %}
+
+{% block content %}
+<section class="min-h-screen flex items-center justify-center p-4 md:p-12 lg:ml-8">
+    <div class="relative w-full max-w-6xl grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        
+        <div class="lg:col-span-7 space-y-10 order-2 lg:order-1">
+            
+            <div class="inline-flex items-center gap-3 bg-white/5 border border-white/10 px-4 py-2 rounded-full">
+                <span class="w-1 h-4 bg-purple-500 rounded-full"></span>
+                <span class="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400">
+                    Nacionalidad | {{ perfil.nacionalidad|default:"Tecnología de la Información" }}
+                </span>
+            </div>
+
+            <div class="space-y-2">
+                <h2 class="text-purple-400/50 font-black italic text-xl tracking-tighter mb-[-10px]">領域展開</h2>
+                <h1 class="text-7xl md:text-8xl font-black tracking-tighter leading-none">
+                    <span class="text-white block">{{ perfil.nombres|upper|default:"ZHARICK" }}</span>
+                    <span class="jujutsu-gradient-text">{{ perfil.apellidos|upper|default:"MILENKA" }}</span>
+                </h1>
+            </div>
+
+            <div class="relative group max-w-md">
+                <div class="absolute -inset-1 bg-gradient-to-r from-purple-600 to-blue-600 rounded-3xl blur opacity-10 group-hover:opacity-20 transition duration-1000"></div>
+                <div class="relative bg-black/40 backdrop-blur-md border border-white/5 p-8 rounded-[2rem]">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="w-2 h-2 bg-purple-500 rounded-full animate-pulse"></span>
+                        <span class="text-[10px] font-bold uppercase tracking-widest text-slate-500">System_Data</span>
+                    </div>
+                    <p class="text-xl italic font-medium text-slate-300">
+                        "{{ perfil.descripcionperfil|default:'Hola, Katie. Te adoro mucho. <3' }}"
+                    </p>
+                </div>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-6 pt-4">
+                <a href="{% url 'cursos' %}" class="group relative px-8 py-4 bg-white/5 border border-white/10 rounded-2xl overflow-hidden transition-all hover:border-purple-500/50">
+                    <div class="absolute inset-0 bg-purple-500/10 translate-y-full group-hover:translate-y-0 transition-transform"></div>
+                    <span class="relative flex items-center gap-3 font-bold uppercase tracking-widest text-sm">
+                        Mis Técnicas <i data-lucide="sparkles" size="18" class="text-purple-400"></i>
+                    </span>
+                </a>
+
+                <button onclick="toggleModal(true)" class="flex items-center gap-4 group">
+                    <div class="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center group-hover:border-purple-500 group-hover:bg-purple-500/10 transition-all">
+                        <i data-lucide="scroll-text" size="20" class="text-slate-400 group-hover:text-white"></i>
+                    </div>
+                    <div class="text-left">
+                        <p class="text-[10px] font-bold text-slate-500 uppercase tracking-tighter leading-none">Resume_Scroll</p>
+                        <p class="text-sm font-black uppercase text-white tracking-widest">Descargar CV</p>
+                    </div>
+                </button>
+            </div>
+        </div>
+
+        <div class="lg:col-span-5 relative order-1 lg:order-2">
+            <div class="absolute -top-6 -right-6 z-20 w-20 h-20 bg-purple-600 rounded-full flex flex-col items-center justify-center border-4 border-[#050a15] shadow-xl rotate-12">
+                <span class="text-[8px] font-bold text-white/50 uppercase">ID</span>
+                <span class="text-sm font-black text-white italic leading-none">#{{ perfil.idperfil|default:"1" }}</span>
+            </div>
+
+            <div class="relative rounded-[3rem] overflow-hidden border border-white/10 bg-white/5 group shadow-2xl">
+                <div class="absolute top-6 left-6 z-20">
+                    <div class="bg-black/60 backdrop-blur-md px-4 py-2 rounded-xl border border-white/10">
+                        <p class="text-[9px] font-bold text-blue-400 uppercase tracking-tighter">Email: {{ perfil.email_contacto|default:"Detectada" }}</p>
+                        <p class="text-[9px] font-bold text-slate-400 uppercase tracking-tighter">Status: {{ perfil.estadocivil|default:"Activo" }}</p>
+                    </div>
+                </div>
+
+                {% if perfil.fotoperfil %}
+                    <img src="{{ perfil.fotoperfil.url }}" alt="{{ perfil.nombres }}" class="w-full h-[500px] object-cover grayscale group-hover:grayscale-0 transition-all duration-700">
+                {% else %}
+                    <img src="{% static 'img/perfil.jpg' %}" alt="Default" class="w-full h-[500px] object-cover grayscale group-hover:grayscale-0 transition-all duration-700">
+                {% endif %}
+                
+                <div class="absolute bottom-0 left-0 w-full bg-black/80 backdrop-blur-xl border-t border-white/10 p-6 flex items-center justify-between">
+                    <div class="flex flex-col">
+                        <span class="text-[10px] font-bold text-blue-500 uppercase">Nacimiento</span>
+                        <span class="text-xl font-black italic">{{ perfil.fechanacimiento|date:"Y" }}</span>
+                        <div class="w-12 h-1 bg-blue-500 mt-1 rounded-full overflow-hidden">
+                            <div class="w-2/3 h-full bg-white animate-pulse"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-right">
+                        <p class="text-[10px] font-bold text-slate-500 uppercase leading-none">Género</p>
+                        <p class="text-lg font-black uppercase text-white italic tracking-tighter">
+                            {% if perfil.sexo == 'H' %}Hombre{% elif perfil.sexo == 'M' %}Mujer{% else %}No definido{% endif %}
+                        </p>
+                        <span class="text-[10px] text-purple-400 font-bold italic mt-1 block">Z-SYSTEM v.2026</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="absolute -bottom-10 -left-10 w-32 h-32 bg-purple-500/20 rounded-full blur-3xl -z-10"></div>
+        </div>
+
+    </div>
+</section>
+
+<script>
+    lucide.createIcons();
+</script>
+{% endblock %}

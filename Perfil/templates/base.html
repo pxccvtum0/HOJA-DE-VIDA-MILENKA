@@ -1,0 +1,198 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Sorcerer Profile{% endblock %} | Z-SYSTEM</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Outfit:wght@100;400;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        :root {
+            --neon-purple: #8b5cf6;
+            --neon-blue: #3b82f6;
+            --dark-core: #050a15;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: var(--dark-core);
+            color: #e2e8f0;
+            overflow-x: hidden;
+        }
+
+        .jujutsu-gradient-text {
+            background-image: linear-gradient(to right, #60a5fa, #8b5cf6, #ec4899);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            display: inline-block;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #050a15; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--neon-purple); }
+
+        /* Loader */
+        #loader {
+            position: fixed;
+            inset: 0;
+            background: #050a15;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.6s ease;
+        }
+
+        .scan-line {
+            width: 200px;
+            height: 2px;
+            background: var(--neon-blue);
+            box-shadow: 0 0 15px var(--neon-blue);
+            animation: scan 1.5s infinite ease-in-out;
+        }
+
+        @keyframes scan {
+            0%, 100% { transform: translateY(-20px); opacity: 0; }
+            50% { transform: translateY(20px); opacity: 1; }
+        }
+    </style>
+</head>
+<body class="bg-[#050a15] selection:bg-purple-500/30">
+
+    <div id="loader">
+        <div class="text-[10px] tracking-[0.5em] mb-4 text-blue-400 font-bold uppercase">Sincronizando Energía</div>
+        <div class="scan-line"></div>
+    </div>
+
+    <div class="fixed top-0 left-0 w-full h-[2px] bg-white/5 z-[60]">
+        <div id="scroll-progress" class="h-full bg-gradient-to-r from-blue-500 to-purple-600 shadow-[0_0_10px_#8b5cf6] w-0"></div>
+    </div>
+
+    <aside class="fixed left-0 top-0 h-full w-20 bg-black/40 backdrop-blur-xl border-r border-white/5 z-50 flex flex-col items-center py-8 justify-between">
+        <div class="flex flex-col items-center gap-10">
+            <a href="{% url 'home' %}" class="w-12 h-12 bg-purple-600 rounded-2xl flex items-center justify-center shadow-[0_0_20px_rgba(139,92,246,0.4)] hover:scale-110 transition-transform">
+                <span class="text-white font-black text-xl italic font-['Outfit']">Z</span>
+            </a>
+
+            <nav class="flex flex-col gap-8">
+                <a href="{% url 'home' %}" title="Inicio" class="text-slate-500 hover:text-purple-400 transition-colors"><i data-lucide="home"></i></a>
+                <a href="{% url 'experiencia' %}" title="Misiones" class="text-slate-500 hover:text-purple-400 transition-colors"><i data-lucide="briefcase"></i></a>
+                <a href="{% url 'cursos' %}" title="Técnicas" class="text-slate-500 hover:text-purple-400 transition-colors"><i data-lucide="graduation-cap"></i></a>
+                <a href="{% url 'productos_laborales' %}" title="Proyectos Lab" class="text-slate-500 hover:text-purple-400 transition-colors"><i data-lucide="layers"></i></a>
+                <a href="{% url 'productos_academicos' %}" title="Proyectos Acad" class="text-slate-500 hover:text-purple-400 transition-colors"><i data-lucide="file-text"></i></a>
+                <a href="{% url 'reconocimientos' %}" title="Logros" class="text-slate-500 hover:text-purple-400 transition-colors"><i data-lucide="medal"></i></a>
+                <a href="{% url 'garage' %}" title="Garage" class="text-slate-500 hover:text-purple-400 transition-colors"><i data-lucide="archive"></i></a>
+            </nav>
+        </div>
+
+        <a href="/admin/" target="_blank" class="text-slate-700 hover:text-white transition-colors">
+            <i data-lucide="settings" size="20"></i>
+        </a>
+    </aside>
+
+    <main class="ml-20 min-h-screen relative">
+        <div class="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 pointer-events-none"></div>
+        <div class="relative z-10">
+            {% block content %}{% endblock %}
+        </div>
+
+        <div class="fixed bottom-8 right-8 z-50">
+            <button onclick="toggleModal(true)" 
+                    class="group flex items-center gap-3 bg-white/5 hover:bg-white/10 backdrop-blur-md border border-white/10 p-2 pr-6 rounded-full transition-all hover:border-purple-500/50">
+                <div class="w-10 h-10 bg-white text-black rounded-full flex items-center justify-center group-hover:bg-purple-500 group-hover:text-white transition-colors">
+                    <i data-lucide="download" size="18"></i>
+                </div>
+                <span class="text-xs font-bold uppercase tracking-widest text-slate-300">Descargar CV</span>
+            </button>
+        </div>
+    </main>
+
+    <div id="modalPDF" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="toggleModal(false)"></div>
+        <div class="relative bg-[#0a0f1d] border border-white/10 w-full max-w-md rounded-[2.5rem] p-8 shadow-2xl">
+            <h3 class="text-2xl font-black italic uppercase text-white mb-6">Configurar <span class="text-purple-500">Expediente</span></h3>
+            
+            <div class="space-y-4">
+                <div class="flex items-center justify-between p-4 bg-white/5 rounded-2xl border border-white/5">
+                    <label class="text-sm font-bold uppercase tracking-wider text-slate-400">Experiencia Laboral</label>
+                    <input type="checkbox" id="checkExp" checked class="w-5 h-5 accent-purple-600">
+                </div>
+                <div class="flex items-center justify-between p-4 bg-white/5 rounded-2xl border border-white/5">
+                    <label class="text-sm font-bold uppercase tracking-wider text-slate-400">Cursos Realizados</label>
+                    <input type="checkbox" id="checkCursos" checked class="w-5 h-5 accent-purple-600">
+                </div>
+                <div class="flex items-center justify-between p-4 bg-white/5 rounded-2xl border border-white/5">
+                    <label class="text-sm font-bold uppercase tracking-wider text-slate-400">Reconocimientos</label>
+                    <input type="checkbox" id="checkLogros" checked class="w-5 h-5 accent-purple-600">
+                </div>
+                <div class="flex items-center justify-between p-4 bg-white/5 rounded-2xl border border-white/5">
+                    <label class="text-sm font-bold uppercase tracking-wider text-slate-400">Proyectos (Lab/Acad)</label>
+                    <input type="checkbox" id="checkProy" checked class="w-5 h-5 accent-purple-600">
+                </div>
+                <div class="flex items-center justify-between p-4 bg-purple-500/10 rounded-2xl border border-purple-500/20">
+                    <label class="text-sm font-bold uppercase tracking-wider text-purple-400 font-black">Venta Garage (Documentos)</label>
+                    <input type="checkbox" id="checkGarage" checked class="w-5 h-5 accent-purple-600">
+                </div>
+            </div>
+
+            <button onclick="prepararDescarga()" class="w-full mt-8 bg-gradient-to-r from-blue-600 to-purple-600 p-4 rounded-2xl font-black uppercase tracking-tighter hover:scale-[1.02] transition-transform shadow-[0_0_20px_rgba(139,92,246,0.3)]">
+                Generar Documento PDF
+            </button>
+        </div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        // Manejo del Cargador
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const loader = document.getElementById('loader');
+                if(loader) {
+                    loader.style.opacity = '0';
+                    setTimeout(() => loader.style.display = 'none', 600);
+                }
+            }, 800);
+        });
+
+        // Progreso de Scroll
+        window.onscroll = function() {
+            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            let scrolled = (winScroll / height) * 100;
+            const bar = document.getElementById("scroll-progress");
+            if(bar) bar.style.width = scrolled + "%";
+        };
+
+        // Lógica de Modal
+        function toggleModal(show) {
+            const modal = document.getElementById('modalPDF');
+            if (show) modal.classList.remove('hidden');
+            else modal.classList.add('hidden');
+        }
+
+        function prepararDescarga() {
+            const params = new URLSearchParams({
+                exp: document.getElementById('checkExp').checked,
+                cursos: document.getElementById('checkCursos').checked,
+                logros: document.getElementById('checkLogros').checked,
+                proy: document.getElementById('checkProy').checked,
+                garage: document.getElementById('checkGarage').checked
+            });
+
+            // Asume que la URL 'exportar_cv' está definida en urls.py
+            const baseUrl = "{% url 'exportar_cv' %}";
+            window.open(`${baseUrl}?${params.toString()}`, '_blank');
+            toggleModal(false);
+        }
+    </script>
+</body>
+</html>
