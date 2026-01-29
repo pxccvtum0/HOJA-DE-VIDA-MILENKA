@@ -12,9 +12,9 @@
     
     <style>
         :root {
-            --neon-purple: #8b5cf6;
-            --neon-blue: #3b82f6;
-            --dark-core: #050a15;
+            --neon-purple: #ff007f; /* Rosa Eléctrico / Nobara Style */
+            --neon-blue: #00f2ff;   /* Cian Maldito */
+            --dark-core: #030005;
         }
 
         body {
@@ -24,72 +24,145 @@
             overflow-x: hidden;
         }
 
+        /* --- FONDO DE PÉTALOS MALDITOS (BRUTAL FEM) --- */
+        .petal-container {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background: radial-gradient(circle at center, #1a001a 0%, #030005 100%);
+            overflow: hidden;
+        }
+
+        .petal {
+            position: absolute;
+            background: var(--neon-purple);
+            border-radius: 150% 0 150% 0;
+            filter: drop-shadow(0 0 5px var(--neon-purple));
+            opacity: 0.6;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
+            15% { opacity: 0.8; }
+            100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+        }
+
         .jujutsu-gradient-text {
-            background-image: linear-gradient(to right, #60a5fa, #8b5cf6, #ec4899);
+            background-image: linear-gradient(to right, var(--neon-blue), var(--neon-purple), #ffffff);
             background-clip: text;
             -webkit-background-clip: text;
             color: transparent;
             display: inline-block;
+            font-weight: 900;
         }
 
         /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #050a15; }
-        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--neon-purple); }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #030005; }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(var(--neon-purple), var(--neon-blue)); }
 
-        /* Loader */
+        /* Loader: Expansión de Dominio */
         #loader {
             position: fixed;
             inset: 0;
-            background: #050a15;
+            background: #000;
             z-index: 100;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            transition: opacity 0.6s ease;
+            transition: clip-path 1s cubic-bezier(0.77, 0, 0.175, 1);
+            clip-path: circle(150% at 50% 50%);
+        }
+
+        #loader.hidden-loader {
+            clip-path: circle(0% at 50% 50%);
         }
 
         .scan-line {
-            width: 200px;
-            height: 2px;
-            background: var(--neon-blue);
-            box-shadow: 0 0 15px var(--neon-blue);
+            width: 250px;
+            height: 1px;
+            background: var(--neon-purple);
+            box-shadow: 0 0 20px var(--neon-purple), 0 0 40px var(--neon-blue);
             animation: scan 1.5s infinite ease-in-out;
         }
 
         @keyframes scan {
-            0%, 100% { transform: translateY(-20px); opacity: 0; }
-            50% { transform: translateY(20px); opacity: 1; }
+            0%, 100% { transform: scaleX(0.5); opacity: 0.2; }
+            50% { transform: scaleX(1.2); opacity: 1; }
+        }
+
+        /* --- ANIMACIÓN BARRA NAVEGACIÓN --- */
+        nav a {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        nav a:hover {
+            color: var(--neon-purple) !important;
+            transform: scale(1.3) translateY(-2px);
+            filter: drop-shadow(0 0 8px var(--neon-purple));
+        }
+
+        nav a:hover::after {
+            content: '';
+            position: absolute;
+            inset: -8px;
+            background: radial-gradient(circle, rgba(255, 0, 127, 0.3) 0%, transparent 70%);
+            border-radius: 50%;
+            z-index: -1;
+            animation: aura 0.5s infinite alternate;
+        }
+
+        @keyframes aura {
+            from { opacity: 0.5; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* Borde lateral que fluye */
+        aside::after {
+            content: '';
+            position: absolute;
+            right: 0; top: 0; width: 1px; height: 100%;
+            background: linear-gradient(to bottom, transparent, var(--neon-purple), var(--neon-blue), transparent);
+            background-size: 100% 200%;
+            animation: flow 3s linear infinite;
+        }
+
+        @keyframes flow {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 0% 200%; }
         }
     </style>
 </head>
-<body class="bg-[#050a15] selection:bg-purple-500/30">
+<body class="bg-[#030005] selection:bg-pink-500/30">
+
+    <div class="petal-container" id="petal-container"></div>
 
     <div id="loader">
-        <div class="text-[10px] tracking-[0.5em] mb-4 text-blue-400 font-bold uppercase">Sincronizando Energía</div>
+        <div class="text-[10px] tracking-[0.8em] mb-4 text-pink-500 font-black uppercase italic animate-pulse">Sincronizando Energía</div>
         <div class="scan-line"></div>
     </div>
 
     <div class="fixed top-0 left-0 w-full h-[2px] bg-white/5 z-[60]">
-        <div id="scroll-progress" class="h-full bg-gradient-to-r from-blue-500 to-purple-600 shadow-[0_0_10px_#8b5cf6] w-0"></div>
+        <div id="scroll-progress" class="h-full bg-gradient-to-r from-pink-500 to-cyan-400 shadow-[0_0_15px_#ff007f] w-0"></div>
     </div>
 
-    <aside class="fixed left-0 top-0 h-full w-20 bg-black/40 backdrop-blur-xl border-r border-white/5 z-50 flex flex-col items-center py-8 justify-between">
+    <aside class="fixed left-0 top-0 h-full w-20 bg-black/60 backdrop-blur-xl border-r border-white/5 z-50 flex flex-col items-center py-8 justify-between">
         <div class="flex flex-col items-center gap-10">
-            <a href="{% url 'home' %}" class="w-12 h-12 bg-purple-600 rounded-2xl flex items-center justify-center shadow-[0_0_20px_rgba(139,92,246,0.4)] hover:scale-110 transition-transform">
+            <a href="{% url 'home' %}" class="w-12 h-12 bg-pink-600 rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(255,0,127,0.5)] hover:scale-110 hover:rotate-12 transition-all">
                 <span class="text-white font-black text-xl italic font-['Outfit']">Z</span>
             </a>
 
             <nav class="flex flex-col gap-8">
-                <a href="{% url 'home' %}" title="Inicio" class="text-slate-500 hover:text-purple-400 transition-colors"><i data-lucide="home"></i></a>
-                <a href="{% url 'experiencia' %}" title="Misiones" class="text-slate-500 hover:text-purple-400 transition-colors"><i data-lucide="briefcase"></i></a>
-                <a href="{% url 'cursos' %}" title="Técnicas" class="text-slate-500 hover:text-purple-400 transition-colors"><i data-lucide="graduation-cap"></i></a>
-                <a href="{% url 'productos_laborales' %}" title="Proyectos Lab" class="text-slate-500 hover:text-purple-400 transition-colors"><i data-lucide="layers"></i></a>
-                <a href="{% url 'productos_academicos' %}" title="Proyectos Acad" class="text-slate-500 hover:text-purple-400 transition-colors"><i data-lucide="file-text"></i></a>
-                <a href="{% url 'reconocimientos' %}" title="Logros" class="text-slate-500 hover:text-purple-400 transition-colors"><i data-lucide="medal"></i></a>
-                <a href="{% url 'garage' %}" title="Garage" class="text-slate-500 hover:text-purple-400 transition-colors"><i data-lucide="archive"></i></a>
+                <a href="{% url 'home' %}" title="Inicio" class="text-slate-500 transition-colors"><i data-lucide="home"></i></a>
+                <a href="{% url 'experiencia' %}" title="Misiones" class="text-slate-500 transition-colors"><i data-lucide="briefcase"></i></a>
+                <a href="{% url 'cursos' %}" title="Técnicas" class="text-slate-500 transition-colors"><i data-lucide="graduation-cap"></i></a>
+                <a href="{% url 'productos_laborales' %}" title="Proyectos Lab" class="text-slate-500 transition-colors"><i data-lucide="layers"></i></a>
+                <a href="{% url 'productos_academicos' %}" title="Proyectos Acad" class="text-slate-500 transition-colors"><i data-lucide="file-text"></i></a>
+                <a href="{% url 'reconocimientos' %}" title="Logros" class="text-slate-500 transition-colors"><i data-lucide="medal"></i></a>
+                <a href="{% url 'garage' %}" title="Garage" class="text-slate-500 transition-colors"><i data-lucide="archive"></i></a>
             </nav>
         </div>
 
@@ -106,44 +179,36 @@
 
         <div class="fixed bottom-8 right-8 z-50">
             <button onclick="toggleModal(true)" 
-                    class="group flex items-center gap-3 bg-white/5 hover:bg-white/10 backdrop-blur-md border border-white/10 p-2 pr-6 rounded-full transition-all hover:border-purple-500/50">
-                <div class="w-10 h-10 bg-white text-black rounded-full flex items-center justify-center group-hover:bg-purple-500 group-hover:text-white transition-colors">
-                    <i data-lucide="download" size="18"></i>
+                    class="group flex items-center gap-3 bg-black/40 hover:bg-pink-900/20 backdrop-blur-md border border-pink-500/30 p-2 pr-6 rounded-full transition-all hover:shadow-[0_0_25px_rgba(255,0,127,0.4)]">
+                <div class="w-10 h-10 bg-white text-black rounded-full flex items-center justify-center group-hover:bg-pink-600 group-hover:text-white transition-colors">
+                    <i data-lucide="sparkles" size="18"></i>
                 </div>
-                <span class="text-xs font-bold uppercase tracking-widest text-slate-300">Descargar CV</span>
+                <span class="text-xs font-black uppercase tracking-widest text-pink-100">Expediente CV</span>
             </button>
         </div>
     </main>
 
     <div id="modalPDF" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4">
-        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="toggleModal(false)"></div>
-        <div class="relative bg-[#0a0f1d] border border-white/10 w-full max-w-md rounded-[2.5rem] p-8 shadow-2xl">
-            <h3 class="text-2xl font-black italic uppercase text-white mb-6">Configurar <span class="text-purple-500">Expediente</span></h3>
+        <div class="absolute inset-0 bg-black/90 backdrop-blur-sm" onclick="toggleModal(false)"></div>
+        <div class="relative bg-[#0d000d] border border-pink-500/20 w-full max-w-md rounded-[2.5rem] p-8 shadow-2xl">
+            <h3 class="text-2xl font-black italic uppercase text-white mb-6">Pacto <span class="jujutsu-gradient-text">Vinculante</span></h3>
             
             <div class="space-y-4">
-                <div class="flex items-center justify-between p-4 bg-white/5 rounded-2xl border border-white/5">
-                    <label class="text-sm font-bold uppercase tracking-wider text-slate-400">Experiencia Laboral</label>
-                    <input type="checkbox" id="checkExp" checked class="w-5 h-5 accent-purple-600">
+                <div class="flex items-center justify-between p-4 bg-white/5 rounded-2xl border border-white/5 hover:border-pink-500/50 transition-all">
+                    <label class="text-sm font-bold uppercase tracking-wider text-slate-400">Récord de Combate</label>
+                    <input type="checkbox" id="checkExp" checked class="w-5 h-5 accent-pink-600">
                 </div>
-                <div class="flex items-center justify-between p-4 bg-white/5 rounded-2xl border border-white/5">
-                    <label class="text-sm font-bold uppercase tracking-wider text-slate-400">Cursos Realizados</label>
-                    <input type="checkbox" id="checkCursos" checked class="w-5 h-5 accent-purple-600">
+                <div class="flex items-center justify-between p-4 bg-white/5 rounded-2xl border border-white/5 hover:border-pink-500/50 transition-all">
+                    <label class="text-sm font-bold uppercase tracking-wider text-slate-400">Técnicas de Grado</label>
+                    <input type="checkbox" id="checkCursos" checked class="w-5 h-5 accent-pink-600">
                 </div>
-                <div class="flex items-center justify-between p-4 bg-white/5 rounded-2xl border border-white/5">
-                    <label class="text-sm font-bold uppercase tracking-wider text-slate-400">Reconocimientos</label>
-                    <input type="checkbox" id="checkLogros" checked class="w-5 h-5 accent-purple-600">
-                </div>
-                <div class="flex items-center justify-between p-4 bg-white/5 rounded-2xl border border-white/5">
-                    <label class="text-sm font-bold uppercase tracking-wider text-slate-400">Proyectos (Lab/Acad)</label>
-                    <input type="checkbox" id="checkProy" checked class="w-5 h-5 accent-purple-600">
-                </div>
-                <div class="flex items-center justify-between p-4 bg-purple-500/10 rounded-2xl border border-purple-500/20">
-                    <label class="text-sm font-bold uppercase tracking-wider text-purple-400 font-black">Venta Garage (Documentos)</label>
-                    <input type="checkbox" id="checkGarage" checked class="w-5 h-5 accent-purple-600">
+                <div class="flex items-center justify-between p-4 bg-pink-500/10 rounded-2xl border border-pink-500/20">
+                    <label class="text-sm font-bold uppercase tracking-wider text-pink-400 font-black">Objetos Malditos (Garage)</label>
+                    <input type="checkbox" id="checkGarage" checked class="w-5 h-5 accent-pink-600">
                 </div>
             </div>
 
-            <button onclick="prepararDescarga()" class="w-full mt-8 bg-gradient-to-r from-blue-600 to-purple-600 p-4 rounded-2xl font-black uppercase tracking-tighter hover:scale-[1.02] transition-transform shadow-[0_0_20px_rgba(139,92,246,0.3)]">
+            <button onclick="prepararDescarga()" class="w-full mt-8 bg-gradient-to-r from-pink-600 to-purple-600 p-4 rounded-2xl font-black uppercase tracking-widest hover:brightness-125 transition-all">
                 Generar Documento PDF
             </button>
         </div>
@@ -152,15 +217,30 @@
     <script>
         lucide.createIcons();
 
-        // Manejo del Cargador
+        // Generar Pétalos Malditos
+        const container = document.getElementById('petal-container');
+        function createPetal() {
+            const petal = document.createElement('div');
+            petal.className = 'petal';
+            const size = Math.random() * 15 + 5;
+            petal.style.width = size + 'px';
+            petal.style.height = (size * 1.5) + 'px';
+            petal.style.left = Math.random() * 100 + 'vw';
+            petal.style.animationDuration = (Math.random() * 3 + 3) + 's';
+            container.appendChild(petal);
+            setTimeout(() => petal.remove(), 6000);
+        }
+        setInterval(createPetal, 300);
+
+        // Manejo del Cargador (Cierre de Dominio)
         window.addEventListener('load', () => {
             setTimeout(() => {
                 const loader = document.getElementById('loader');
                 if(loader) {
-                    loader.style.opacity = '0';
-                    setTimeout(() => loader.style.display = 'none', 600);
+                    loader.classList.add('hidden-loader');
+                    setTimeout(() => loader.style.display = 'none', 1000);
                 }
-            }, 800);
+            }, 1200);
         });
 
         // Progreso de Scroll
@@ -172,7 +252,6 @@
             if(bar) bar.style.width = scrolled + "%";
         };
 
-        // Lógica de Modal
         function toggleModal(show) {
             const modal = document.getElementById('modalPDF');
             if (show) modal.classList.remove('hidden');
@@ -183,12 +262,8 @@
             const params = new URLSearchParams({
                 exp: document.getElementById('checkExp').checked,
                 cursos: document.getElementById('checkCursos').checked,
-                logros: document.getElementById('checkLogros').checked,
-                proy: document.getElementById('checkProy').checked,
                 garage: document.getElementById('checkGarage').checked
             });
-
-            // Asume que la URL 'exportar_cv' está definida en urls.py
             const baseUrl = "{% url 'exportar_cv' %}";
             window.open(`${baseUrl}?${params.toString()}`, '_blank');
             toggleModal(false);

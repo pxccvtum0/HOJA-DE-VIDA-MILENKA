@@ -7,7 +7,7 @@
 <section class="min-h-screen flex items-center justify-center p-4 md:p-12 lg:ml-8">
     <div class="relative w-full max-w-6xl grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
         
-        <div class="lg:col-span-7 space-y-10 order-2 lg:order-1">
+        <div class="lg:col-span-7 space-y-10 order-2 lg:order-1 flex flex-col items-center lg:items-start text-center lg:text-left">
             
             <div class="inline-flex items-center gap-3 bg-white/5 border border-white/10 px-4 py-2 rounded-full">
                 <span class="w-1 h-4 bg-purple-500 rounded-full"></span>
@@ -24,10 +24,10 @@
                 </h1>
             </div>
 
-            <div class="relative group max-w-md">
+            <div class="relative group max-w-md w-full">
                 <div class="absolute -inset-1 bg-gradient-to-r from-purple-600 to-blue-600 rounded-3xl blur opacity-10 group-hover:opacity-20 transition duration-1000"></div>
                 <div class="relative bg-black/40 backdrop-blur-md border border-white/5 p-8 rounded-[2rem]">
-                    <div class="flex items-center gap-3 mb-4">
+                    <div class="flex items-center justify-center lg:justify-start gap-3 mb-4">
                         <span class="w-2 h-2 bg-purple-500 rounded-full animate-pulse"></span>
                         <span class="text-[10px] font-bold uppercase tracking-widest text-slate-500">System_Data</span>
                     </div>
@@ -37,23 +37,17 @@
                 </div>
             </div>
 
-            <div class="flex flex-wrap items-center gap-6 pt-4">
-                <a href="{% url 'cursos' %}" class="group relative px-8 py-4 bg-white/5 border border-white/10 rounded-2xl overflow-hidden transition-all hover:border-purple-500/50">
-                    <div class="absolute inset-0 bg-purple-500/10 translate-y-full group-hover:translate-y-0 transition-transform"></div>
-                    <span class="relative flex items-center gap-3 font-bold uppercase tracking-widest text-sm">
-                        Mis Técnicas <i data-lucide="sparkles" size="18" class="text-purple-400"></i>
+            <div class="flex justify-center lg:justify-start w-full max-w-md pt-10 lg:pl-20"> 
+                <a href="{% url 'cursos' %}" 
+                   class="group relative inline-flex items-center justify-center px-10 py-4 rounded-full border-2 border-purple-500/50 bg-transparent transition-all duration-500 hover:bg-purple-500 hover:shadow-[0_0_25px_rgba(168,85,247,0.6)] hover:scale-105 overflow-hidden">
+                    
+                    <div class="absolute inset-0 bg-gradient-to-r from-purple-600/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    
+                    <span class="relative flex items-center gap-4 font-black uppercase tracking-[0.2em] text-sm text-white">
+                        Mis Técnicas 
+                        <i data-lucide="sparkles" size="20" class="text-purple-300 group-hover:text-white transition-colors"></i>
                     </span>
                 </a>
-
-                <button onclick="toggleModal(true)" class="flex items-center gap-4 group">
-                    <div class="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center group-hover:border-purple-500 group-hover:bg-purple-500/10 transition-all">
-                        <i data-lucide="scroll-text" size="20" class="text-slate-400 group-hover:text-white"></i>
-                    </div>
-                    <div class="text-left">
-                        <p class="text-[10px] font-bold text-slate-500 uppercase tracking-tighter leading-none">Resume_Scroll</p>
-                        <p class="text-sm font-black uppercase text-white tracking-widest">Descargar CV</p>
-                    </div>
-                </button>
             </div>
         </div>
 
@@ -81,9 +75,6 @@
                     <div class="flex flex-col">
                         <span class="text-[10px] font-bold text-blue-500 uppercase">Nacimiento</span>
                         <span class="text-xl font-black italic">{{ perfil.fechanacimiento|date:"Y" }}</span>
-                        <div class="w-12 h-1 bg-blue-500 mt-1 rounded-full overflow-hidden">
-                            <div class="w-2/3 h-full bg-white animate-pulse"></div>
-                        </div>
                     </div>
                     
                     <div class="text-right">
@@ -95,7 +86,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="absolute -bottom-10 -left-10 w-32 h-32 bg-purple-500/20 rounded-full blur-3xl -z-10"></div>
         </div>
 
