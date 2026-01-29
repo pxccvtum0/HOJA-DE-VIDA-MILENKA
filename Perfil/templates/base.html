@@ -189,22 +189,30 @@
     </main>
 
     <div id="modalPDF" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4">
-        <div class="absolute inset-0 bg-black/90 backdrop-blur-sm" onclick="toggleModal(false)"></div>
-        <div class="relative bg-[#0d000d] border border-pink-500/20 w-full max-w-md rounded-[2.5rem] p-8 shadow-2xl">
-            <h3 class="text-2xl font-black italic uppercase text-white mb-6">Pacto <span class="jujutsu-gradient-text">Vinculante</span></h3>
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="toggleModal(false)"></div>
+        <div class="relative bg-[#0a0f1d] border border-white/10 w-full max-w-md rounded-[2.5rem] p-8 shadow-2xl">
+            <h3 class="text-2xl font-black italic uppercase text-white mb-6">Configurar <span class="text-purple-500">Expediente</span></h3>
             
             <div class="space-y-4">
-                <div class="flex items-center justify-between p-4 bg-white/5 rounded-2xl border border-white/5 hover:border-pink-500/50 transition-all">
-                    <label class="text-sm font-bold uppercase tracking-wider text-slate-400">Récord de Combate</label>
-                    <input type="checkbox" id="checkExp" checked class="w-5 h-5 accent-pink-600">
+                <div class="flex items-center justify-between p-4 bg-white/5 rounded-2xl border border-white/5">
+                    <label class="text-sm font-bold uppercase tracking-wider text-slate-400">Experiencia Laboral</label>
+                    <input type="checkbox" id="checkExp" checked class="w-5 h-5 accent-purple-600">
                 </div>
-                <div class="flex items-center justify-between p-4 bg-white/5 rounded-2xl border border-white/5 hover:border-pink-500/50 transition-all">
-                    <label class="text-sm font-bold uppercase tracking-wider text-slate-400">Técnicas de Grado</label>
-                    <input type="checkbox" id="checkCursos" checked class="w-5 h-5 accent-pink-600">
+                <div class="flex items-center justify-between p-4 bg-white/5 rounded-2xl border border-white/5">
+                    <label class="text-sm font-bold uppercase tracking-wider text-slate-400">Cursos Realizados</label>
+                    <input type="checkbox" id="checkCursos" checked class="w-5 h-5 accent-purple-600">
                 </div>
-                <div class="flex items-center justify-between p-4 bg-pink-500/10 rounded-2xl border border-pink-500/20">
-                    <label class="text-sm font-bold uppercase tracking-wider text-pink-400 font-black">Objetos Malditos (Garage)</label>
-                    <input type="checkbox" id="checkGarage" checked class="w-5 h-5 accent-pink-600">
+                <div class="flex items-center justify-between p-4 bg-white/5 rounded-2xl border border-white/5">
+                    <label class="text-sm font-bold uppercase tracking-wider text-slate-400">Reconocimientos</label>
+                    <input type="checkbox" id="checkLogros" checked class="w-5 h-5 accent-purple-600">
+                </div>
+                <div class="flex items-center justify-between p-4 bg-white/5 rounded-2xl border border-white/5">
+                    <label class="text-sm font-bold uppercase tracking-wider text-slate-400">Proyectos (Lab/Acad)</label>
+                    <input type="checkbox" id="checkProy" checked class="w-5 h-5 accent-purple-600">
+                </div>
+                <div class="flex items-center justify-between p-4 bg-purple-500/10 rounded-2xl border border-purple-500/20">
+                    <label class="text-sm font-bold uppercase tracking-wider text-purple-400 font-black">Venta Garage (Documentos)</label>
+                    <input type="checkbox" id="checkGarage" checked class="w-5 h-5 accent-purple-600">
                 </div>
             </div>
 
