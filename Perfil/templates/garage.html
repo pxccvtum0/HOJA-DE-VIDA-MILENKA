@@ -7,57 +7,75 @@
 <section class="min-h-screen p-8 md:p-20 lg:ml-8">
     <div class="max-w-6xl mx-auto mb-16">
         <div class="inline-flex items-center gap-3 bg-white/5 border border-white/10 px-4 py-2 rounded-full mb-6">
-            <span class="w-1 h-4 bg-yellow-500 rounded-full animate-pulse"></span>
+            <span class="w-1 h-4 bg-pink-400 rounded-full animate-pulse shadow-[0_0_10px_rgba(244,114,182,0.8)]"></span>
             <span class="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400">Marketplace Privado | Artefactos Disponibles</span>
         </div>
         
         <h1 class="text-6xl md:text-7xl font-black tracking-tighter leading-none mb-4">
-    <span class="text-white block">EL</span>
-    <span class="jujutsu-gradient-text italic pr-4">GARAGE</span>
-</h1>
+            <span class="text-white block">EL</span>
+            <span class="jujutsu-gradient-text italic pr-4">GARAGE</span>
+        </h1>
         <p class="text-slate-500 font-medium max-w-xl uppercase text-xs tracking-[0.2em]">
-            Equipos técnicos, gadgets y periféricos disponibles para transferencia de propiedad.
+            Equipos técnicos y periféricos seleccionados con una estética impecable.
         </p>
     </div>
 
     <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-        {% for item in datos %}
+        {% for item in datos|dictsortreversed:"idventagarage" %}
         {% if item.activarparaqueseveaenfront %}
-        <div class="group relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-[2.5rem] overflow-hidden transition-all duration-500 hover:bg-white/10 hover:border-white/20 flex flex-col p-2">
+        <div class="group relative bg-white/[0.03] backdrop-blur-xl border border-white/10 rounded-[3rem] overflow-hidden transition-all duration-700 hover:bg-white/[0.07] hover:border-pink-500/30 flex flex-col p-3">
             
-            <div class="relative aspect-square rounded-[2rem] overflow-hidden bg-black/40 flex items-center justify-center p-8 transition-all duration-500 group-hover:bg-black/60">
+            <div class="relative aspect-[4/5] rounded-[2.5rem] overflow-hidden bg-black/20 flex items-center justify-center p-6 transition-all duration-700">
                 {% if item.foto_producto %}
-                    <img src="{{ item.foto_producto.url }}" alt="{{ item.nombreproducto }}" class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-700">
+                    <img src="{{ item.foto_producto.url }}" alt="{{ item.nombreproducto }}" class="w-full h-full object-contain group-hover:scale-110 transition-transform duration-1000">
                 {% else %}
                     <div class="w-full h-full flex items-center justify-center bg-white/5">
-                        <i data-lucide="package" size="48" class="text-slate-500"></i>
+                        <i data-lucide="sparkles" size="48" class="text-pink-200/20"></i>
                     </div>
                 {% endif %}
                 
-                <div class="absolute top-4 left-4 bg-yellow-500 text-black px-3 py-1 rounded-full shadow-xl">
-                    <span class="font-black text-xs">${{ item.valordelbien }}</span>
+                <div class="absolute bottom-4 left-6 px-4 py-1.5 bg-black/60 backdrop-blur-xl border border-white/10 rounded-full shadow-2xl">
+                    <span class="font-black text-sm text-white tracking-tighter">${{ item.valordelbien }}</span>
+                </div>
+
+                <div class="absolute top-4 right-4">
+                    {% if item.estadoproducto|lower == 'bueno' %}
+                        <div class="flex items-center gap-2 px-4 py-1.5 bg-pink-500/10 border border-pink-400/40 rounded-full backdrop-blur-md shadow-[0_0_20px_rgba(244,114,182,0.15)]">
+                            <span class="relative flex h-2 w-2">
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-pink-400 opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-2 w-2 bg-pink-500"></span>
+                            </span>
+                            <span class="text-[9px] font-black text-pink-300 uppercase tracking-widest">Bueno</span>
+                        </div>
+                    {% elif item.estadoproducto|lower == 'regular' %}
+                        <div class="flex items-center gap-2 px-4 py-1.5 bg-cyan-500/10 border border-cyan-400/40 rounded-full backdrop-blur-md shadow-[0_0_20px_rgba(34,211,238,0.15)]">
+                            <span class="h-2 w-2 rounded-full bg-cyan-400"></span>
+                            <span class="text-[9px] font-black text-cyan-300 uppercase tracking-widest">Regular</span>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
 
-            <div class="px-6 pb-8 pt-6 flex flex-col flex-grow text-center">
-                <div class="mb-4">
-                    <span class="text-[9px] font-bold text-slate-400 uppercase tracking-[0.3em] block mb-2 opacity-60">
-                        {{ item.estadoproducto }} // #ID-{{ item.idventagarage }}
-                    </span>
-                    <h3 class="text-xl md:text-2xl font-black text-white uppercase tracking-tighter leading-tight group-hover:text-yellow-400 transition-colors">
+            <div class="px-8 pb-10 pt-8 flex flex-col flex-grow text-center">
+                <div class="mb-5">
+                    <span class="text-[8px] font-bold text-slate-500 uppercase tracking-[0.5em] block mb-3">Item No. {{ item.idventagarage }}</span>
+                    <h3 class="text-2xl font-black text-white uppercase tracking-tighter leading-tight group-hover:text-pink-300 transition-colors duration-500">
                         {{ item.nombreproducto }}
                     </h3>
                 </div>
 
-                <p class="text-slate-400 text-xs leading-relaxed mb-8 font-medium line-clamp-2">
+                <p class="text-slate-400 text-xs leading-relaxed mb-10 font-medium opacity-80 line-clamp-2">
                     {{ item.descripcion }}
                 </p>
 
                 <div class="mt-auto">
-                    <a href='https://wa.me/593998973952{{ perfil.telefono }}?text=Hola+estoy+interesado+en+el+producto+{{ item.nombreproducto }}' 
+                    <a href='https://wa.me/593998973952?text=Hola!+Me+encantaría+obtener+más+info+de:+{{ item.nombreproducto|urlencode }}' 
                        target="_blank" 
-                       class="w-full flex items-center justify-center gap-2 bg-white text-black text-[11px] font-black uppercase py-4 rounded-2xl hover:bg-yellow-500 hover:shadow-[0_0_20px_rgba(234,179,8,0.3)] transition-all duration-300 active:scale-95">
-                        Adquirir Artefacto
+                       class="relative w-full py-4 rounded-2xl overflow-hidden group/btn flex items-center justify-center transition-all duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-r from-pink-500/20 to-purple-500/20 border border-white/10 group-hover/btn:from-pink-500 group-hover/btn:to-purple-500 transition-all duration-500"></div>
+                        <span class="relative text-[11px] font-black uppercase tracking-[0.2em] text-white group-hover/btn:text-black transition-colors duration-500">
+                            Lo quiero ahora
+                        </span>
                     </a>
                 </div>
             </div>
