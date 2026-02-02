@@ -21,7 +21,7 @@
     </div>
 
     <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {% for reconocimiento in datos %}
+        {% for reconocimiento in datos|dictsortreversed:"fechareconocimiento" %}
         {% if reconocimiento.activarparaqueseveaenfront %}
         <div class="group relative">
             <div class="absolute -inset-1 bg-gradient-to-b from-amber-500/20 to-transparent rounded-[2.5rem] blur opacity-0 group-hover:opacity-100 transition duration-500"></div>
